@@ -1,10 +1,10 @@
 [tool.poetry]
 name = "aws-secrets-wrapper"
-version = "0.1.1"
+version = "0.1.2"
 description = "Wrap and share AWS secrets in a secure way"
 authors = ["Mathew Moon <me@mathewmoon.net>"]
-homepage = "https://github.com/mathewmoon/aws-secrets-env"
-repository = "https://github.com/mathewmoon/aws-secrets-env"
+homepage = "https://github.com/mathewmoon/aws-secrets-wrapper"
+repository = "https://github.com/mathewmoon/aws-secrets-wrapper"
 readme = "README.md"
 packages = [{include = "aws_secrets_wrapper", from = "."}]
 
