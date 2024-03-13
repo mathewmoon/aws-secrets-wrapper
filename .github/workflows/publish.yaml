@@ -1,0 +1,42 @@
+name: Build
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  validate-tag:
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - name: Install dependencies
+        run: |
+          pip install toml-cli
+      - name: Validate Tag
+        run: |
+          VERSION=$(toml get --toml-path pyproject.toml tool.poetry.version)
+          echo $VERSION
+          echo ${{github.ref_name}}
+          if [[ "v${VERSION}" != "${{github.ref_name}}" ]]; then
+            echo "Tag/version mismatch. Version in pyproject.toml is v${VERSION}. Tag is ${{github.ref_name}}"
+            exit 1
+          fi
+
+  build:
+    needs: validate-tag
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v3
+      - name: Build and Upload
+        uses: JRubics/poetry-publish@v1.17
+        with:
+          pypi_token: ${{secrets.PYPI_TOKEN}}
+
