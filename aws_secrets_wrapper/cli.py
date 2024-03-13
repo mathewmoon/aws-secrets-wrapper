@@ -125,6 +125,10 @@ def unwrap(
     opts = {"token": args.token.replace('"', "").replace("'", "")}
     res = invoke(opts, lambda_client, wrap_function)
 
+    if "error" in res or "errorMessage" in res:
+        print(dumps(res, indent=2, default=lambda x: str(x)))
+        return
+
     decoded_val = b64decode(res["value"])
     key_obj = decrypt_datakey(res["kms_key"], res["data_key"], kms_client)
     value = key_obj.decrypt(decoded_val).decode()

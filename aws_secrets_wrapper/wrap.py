@@ -51,6 +51,7 @@ class NotFoundError(Exception):
 class Wrapper:
     table = TABLE
     secret_pk = "WRAPPED_SECRET"
+    kms_client = KMS_CLIENT
 
     def __init__(
         self,
